@@ -28,6 +28,12 @@ namespace Forum
                     await _context.Roles.AddRangeAsync(roles);
                     await _context.SaveChangesAsync();
                 }
+                if (!_context.Categories.Any())
+                {
+                    var categories = GetCategories();
+                    await _context.Categories.AddRangeAsync(categories);
+                    await _context.SaveChangesAsync();
+                }
 
 
                 if (!_context.Users.Any())
@@ -39,6 +45,29 @@ namespace Forum
             }
         }
 
+        public IEnumerable<Category> GetCategories()
+        {
+            var categories = new List<Category>()
+            {
+                new Category()
+                {
+                    Name = "Games"
+                },
+                new Category()
+                {
+                    Name = "Coding"
+                },
+                new Category()
+                {
+                    Name = "Politics"
+                },
+                new Category()
+                {
+                    Name = "Other"
+                },
+            };
+            return categories;
+        }
         public IEnumerable<Role> GetRoles()
         {
             var roles = new List<Role>()
@@ -62,7 +91,45 @@ namespace Forum
                 {
                     UserName = "john1997",
                     PasswordHash = "AQAAAAEAACcQAAAAEJgxNorzKzcpDi90JSCKGbqloXVb31ts+zm3VD+ajhl0Y4I011sLS2fUNEYMhJqt8g==", //password = 123456
-                    RoleId = 1
+                    RoleId = 1,
+                    Posts = new List<Post>()
+                    {
+                        new Post()
+                        {
+                            Title="Example Title",
+                            Content="Example Content",
+                            AnswerCount=1,
+                            ViewCount=42,
+                            CreatedOn = DateTime.Now,
+                            CategoryId = 4,
+                            Answers = new List<Answer>()
+                            {
+                                new Answer()
+                                {
+                                    Content = "Example Post Answer Content",
+                                    CreatedOn = DateTime.Now,
+                                    UserId = 2,
+                                    Comments = new List<Comment>()
+                                    {
+                                        new Comment()
+                                        {
+                                        UserId=1,
+                                        Content = "Example Answer Comment1 Content",
+                                        CreatedOn = DateTime.Now,
+                                        },
+                                        new Comment()
+                                        {
+                                        UserId=2,
+                                        Content = "Example Answer Comment2 Content",
+                                        CreatedOn = DateTime.Now,
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
                 },
                 new User()
                 {
