@@ -1,3 +1,4 @@
+using Forum;
 using Forum.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ForumDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("ForumDbConnection")));
+builder.Services.AddScoped<ForumSeeder>();
 
 var app = builder.Build();
 
@@ -20,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+SeedDatabase();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -28,3 +30,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+void SeedDatabase()
+{
+    var scope = app.Services.CreateScope();
+    
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<ForumSeeder>();
+    dbInitializer.Seed();
+    
+}
