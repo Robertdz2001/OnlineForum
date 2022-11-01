@@ -1,4 +1,4 @@
-﻿namespace Forum.Models
+﻿namespace Forum.Models.UserModels
 {
     public class RegisterUserDto
     {

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Forum.Entities;
+using Forum.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Models.Validators

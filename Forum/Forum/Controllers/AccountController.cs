@@ -1,4 +1,5 @@
 ﻿using Forum.Models;
+using Forum.Models.UserModels;
 using Forum.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,13 @@ namespace Forum.Controllers
             await _service.RegisterUser(dto);
             return Ok();
        }
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginDto dto)
+        {
+            var userCredentials = await _service.GenerateUserCredentials(dto);
+
+
+            return Ok(userCredentials);
+        }
     }
 }
